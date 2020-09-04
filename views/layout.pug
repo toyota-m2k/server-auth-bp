@@ -2,6 +2,13 @@ doctype html
 html
   head
     title= title
+    link(rel='stylesheet', href="https://fonts.googleapis.com/icon?family=Material+Icons")
+    link(rel='stylesheet', href="https://code.getmdl.io/1.3.0/material.yellow-green.min.css")
     link(rel='stylesheet', href='/stylesheets/style.css')
+    block links
+
+    script(src='https://code.getmdl.io/1.3.0/material.min.js')
+    block scripts
+
   body
     block content

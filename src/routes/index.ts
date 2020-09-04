@@ -12,4 +12,12 @@ router.get("/", (req: Request, res: Response, next: NextFunction) => {
   res.render("index", { title: `${config.APP_NAME}.`});
 })
 
+router.get("/login", (req: Request, res: Response, next: NextFunction) => {
+  res.render("login", { title: `${config.APP_NAME}.`});
+})
+
+router.get("/logout", (req: Request, res: Response, next: NextFunction) => {
+  req.logout()
+  res.render("logout", { title: `${config.APP_NAME}.`});
+})
   

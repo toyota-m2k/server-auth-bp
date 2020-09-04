@@ -18,21 +18,19 @@
  *      最大プロセス数（デフォルト = CPU搭載数）
  */
 import logManager from "../utils/logger";
+import Converter from "../utils/converter"
 class Config {
     public APP_NAME: string = "Great App Name"
     public DEBUG: boolean = process.env.NODE_ENV === "debug";
     public PRODUCTION: boolean = process.env.NODE_ENV === "production";
     public PORT: number = this.normalizePort(process.env.PORT || '3000');
-    public ENABLE_CLUSTER: boolean = Config.toBoolean(process.env.ENABLE_CLUSTER);
+    public ENABLE_CLUSTER: boolean = Converter.bool(process.env.ENABLE_CLUSTER, false);
     public MAX_CLUSTER = Number(process.env.MAX_CLUSTER || 0);
+    public ENABLE_SESSION: boolean = Converter.bool(process.env.ENABLE_SESSION, true);
     
     // public ENABLE_REDIS_SESSION = true;
     // public REDIS_INDEX_SESSION = 1;
     // public REDIS_INDEX_ONLINE_USER = 2;
-
-    private static toBoolean(t?: string) {
-        return !t ? false : t.toLowerCase() === 'true';
-    }
 
     private normalizePort(value: any): number {
         let port = parseInt(value, 10);

@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    div#rootElement.signup.mdl-layout.mdl-js-layout.mdl-layout--fixed-header.mdl-layout--no-drawer-button.mdl-color--grey-100
+        header.mdl-layout__header
+            div.mdl-layout__header-row
+                span.mdl-layout-title #{title}
+
+        main
+          ul.demo-list-icon.mdl-list
+            li.mdl-list__item
+              a(href="/auth/google")
+                span.mdl-list__item-primary-content
+                  img(src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png?hl=ja")

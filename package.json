@@ -1,6 +1,7 @@
 {
   "name": "n-card",
   "version": "0.0.0",
+  "license": "Apache-2.0",
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=production TZ=utc PORT=3000 ENABLE_CLUSTER=TRUE node ./bin/www",
@@ -15,18 +16,24 @@
     "cookie-parser": "~1.4.4",
     "debug": "^4.1.1",
     "express": "~4.16.1",
+    "express-session": "^1.17.1",
     "http-errors": "~1.6.3",
     "moment": "^2.27.0",
     "moment-timezone": "^0.5.31",
     "morgan": "~1.9.1",
     "node-sass-middleware": "0.11.0",
+    "passport": "^0.4.1",
+    "passport-google-oauth": "^2.0.0",
     "pug": "2.0.0-beta11"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",
+    "@types/express-session": "^1.17.0",
     "@types/http-errors": "^1.8.0",
     "@types/morgan": "^1.9.1",
     "@types/node-sass-middleware": "^0.0.31",
+    "@types/passport": "^1.0.4",
+    "@types/passport-google-oauth": "^1.0.41",
     "cross-env": "^7.0.2",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
