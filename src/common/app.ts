@@ -19,6 +19,11 @@ import Converter from "../utils/converter"
 import { ZErrorCode } from "../utils/error";
 import { router as indexRouter } from "../routes/index";
 import { router as authRouter } from "../routes/auth";
+import userStore from "../impl/userStore"
+import { IUser } from "../common/defs"
+
+// import session from "express-session"
+
 
 const app = express();
 
@@ -37,38 +42,40 @@ app.use(sassMiddleware({
     indentedSyntax: true, // true = .sass and false = .scss
     sourceMap: true
   }));
-app.use(passport.initialize());
 
-app.use("/", indexRouter);
-app.use("/auth", authRouter);
-
-interface IKeyValue {
-    [key: string]: any
-}
-interface IUser {
-    id:string
-}
 
 if(config.ENABLE_SESSION) {
+    // セッションに認証情報を覚える設定の場合
+    // passport.initialize()より前に、session を使えるようにしておく！！
+    // そうしないと、serializeUser()は呼ばれるのに、deserializeUserが呼ばれない、という謎の現象に見舞われ、原因がわかるまでどえらい苦労した。
     const session = require("express-session")
-    const userMap:IKeyValue = {}
     app.use(session({ 
         resave:false,
         saveUninitialized:false, 
         secret: 'passport test',
         cookie: {
-            secure: true
+            secure: config.PRODUCTION
         }
-     }))
+    }))
+    // use(session)した後で、passport.initializeする
+    app.use(passport.initialize());
+
     app.use(passport.session())
     passport.serializeUser<IUser,string>((user, done) => {
-        userMap[Converter.safe_text(user.id)] = user
+        userStore.register(user)
         done(null, user.id)
     })
     passport.deserializeUser<IUser,string>((userId, done) => {
-        done(null, userMap[Converter.safe_text(userId)])
+        done(null, userStore.findById(userId))
     })    
+  } else {
+    // セッションを使わない設定の場合
+    app.use(passport.initialize());
 }
+
+
+app.use("/", indexRouter);
+app.use("/auth", authRouter);
 
 // catch 404 and forward to error handler
 app.use((req: Request, res: Response, next: NextFunction) => {
